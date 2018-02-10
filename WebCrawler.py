@@ -8,7 +8,6 @@ import re
 class WebCrawler:
     def __init__(self):
         self.url = ""
-        self.isOpened = False
 
         # GUI Components
         self.root = Tk()
@@ -51,11 +50,11 @@ class WebCrawler:
         self.textSource["state"] = NORMAL
         self.textSource.insert(END, ''.join([ch for ch in list(soap.prettify()) if ord(ch) in range(65536)]))
         self.textSource["state"] = DISABLED
-
-        self.isOpened = True
     
     def find_flag(self):
-        print("implement here!!!")
+        if self.url == "":
+            return
+        
         pattern = re.compile(self.get_setting("flagFormat"), re.IGNORECASE)
         result = pattern.findall(self.textSource.get())
         if len(result) == 0:    # When the result is empty
