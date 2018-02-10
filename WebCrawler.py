@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter.simpledialog import askstring
 from bs4 import BeautifulSoup
 import requests
+import re
 
 
 class WebCrawler:
@@ -55,3 +56,9 @@ class WebCrawler:
     
     def find_flag(self):
         print("implement here!!!")
+        pattern = re.compile(self.get_setting("flagFormat"), re.IGNORECASE)
+        result = pattern.findall(self.textSource.get())
+        if len(result) == 0:    # When the result is empty
+            showinfo("WebCrawler - 알랴죠", "Flag가 발견되었습니다!\n\n"+"\n".join(result))
+        else:
+            showinfo("WebCrawler - 알랴죠", "Flag가 발견되지 않았습니다.")
