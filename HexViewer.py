@@ -131,9 +131,9 @@ class HexViewer:
         pattern = re.compile(self.get_setting("flagFormat"), re.IGNORECASE)
         result = pattern.findall(str([chr(e) for e in self.filedata if 0x20 <= e <= 0x7E]))
         if len(result) == 0:    # When the result is empty
-            showinfo("Hex Viewer - 알랴죠", "Flag가 발견되었습니다!\n\n"+"\n".join(result))
-        else:
             showinfo("Hex Viewer - 알랴죠", "Flag가 발견되지 않았습니다.")
+        else:
+            showinfo("Hex Viewer - 알랴죠", "Flag가 발견되었습니다!\n\n"+"\n".join(result))
 
     def get_filetype(self):
         if self.is_hexheader("89 50 4E 47 0D 0A 1A 0A"):
