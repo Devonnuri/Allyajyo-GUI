@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter.filedialog import askopenfilename
-from tkinter.messagebox import *
+from tkinter.messagebox import showinfo
+import re
 
 import os
 from configparser import ConfigParser
@@ -127,33 +128,12 @@ class HexViewer:
         self.on_scroll('moveto', args[0])
 
     def find_flag(self):
-        keyword = self.get_setting("flagFormat").split("*", 1)[0]
-        if self.isOpened:
-            isFound = False
-            for i in range(0, len(self.filedata)):
-                is_flagfound = False
-                weight = 0
-                startpoint = 0
-                # var startpoint saves the index of data where the flag-like strings start
-                for j in range(0, len(keyword)):
-                    if j == 0:
-                        startpoint = i
-                    if not chr(self.filedata[i + weight]).upper() == keyword[j].upper():    # ignore case
-                        break
-                    weight += 1
-                    if j == len(keyword) - 1:
-                        is_flagfound = True
-                if is_flagfound is not False:
-                    flaglike = ""
-                    for j in range(startpoint, self.filesize):
-                        if 0x20 <= self.filedata[j] <= 0x7E:
-                            flaglike += chr(self.filedata[j])
-                        else:
-                            break
-                    showinfo("플래그 발견!", flaglike)
-                    isFound = True
-            if not isFound:
-                showerror("Hex Viewer - 알랴죠", "플래그가 발견되지 않았습니다!")
+        pattern = re.compile(self.get_setting("flagFormat"), re.IGNORECASE)
+        result = pattern.findall(str([chr(e) for e in self.filedata if 0x20 <= e <= 0x7E]))
+        if len(result) == 0:    # When the result is empty
+            showinfo("Hex Viewer - 알랴죠", "Flag가 발견되었습니다!\n\n"+"\n".join(result))
+        else:
+            showinfo("Hex Viewer - 알랴죠", "Flag가 발견되지 않았습니다.")
 
     def get_filetype(self):
         if self.is_hexheader("89 50 4E 47 0D 0A 1A 0A"):

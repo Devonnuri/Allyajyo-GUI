@@ -33,6 +33,7 @@ buttonSetting.pack(fill=X)
 
 if not os.path.exists("allyajyo.ini"):
     with open("allyajyo.ini", "w") as f:
-        f.write("flagFormat=Flag{*}\n")
+        f.write("[Setting]\n"
+                "flagFormat=Flag{.*}\n")
 
 root.mainloop()

@@ -1,5 +1,5 @@
 from tkinter import *
-from tkinter.simpledialog import *
+from tkinter.simpledialog import askstring
 from bs4 import BeautifulSoup
 import requests
 
@@ -7,6 +7,7 @@ import requests
 class WebCrawler:
     def __init__(self):
         self.url = ""
+        self.isOpened = False
 
         # GUI Components
         self.root = Tk()
@@ -25,6 +26,7 @@ class WebCrawler:
 
         self.textSource = Text(self.root)
         self.textSource.config(font=["Consolas", 10], state=DISABLED, height=30, width=100)
+        self.textSource.config(font=["D2Coding", 10])
         self.textSource.pack(side=LEFT, fill=BOTH)
 
         self.scrollbar = Scrollbar(self.root, command=self.textSource.yview)
@@ -48,3 +50,8 @@ class WebCrawler:
         self.textSource["state"] = NORMAL
         self.textSource.insert(END, ''.join([ch for ch in list(soap.prettify()) if ord(ch) in range(65536)]))
         self.textSource["state"] = DISABLED
+
+        self.isOpened = True
+    
+    def find_flag(self):
+        print("implement here!!!")
