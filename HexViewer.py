@@ -47,6 +47,9 @@ class HexViewer:
         self.labelFilesize = Label(self.frameInfo)
         self.labelFiletype = Label(self.frameInfo)
 
+        self.buttonFindFlag = Button(self.frameInfo, text="플래그 찾기", command=lambda: self.find_flag())
+        self.buttonFindFlag.config(font=["나눔고딕", 13])
+
     def show(self):
         self.root.mainloop()
 
@@ -104,11 +107,12 @@ class HexViewer:
 
         self.labelFilename["text"] = "파일이름:\n"+self.filename
         self.labelFiletype["text"] = "파일형식:\n"+self.get_filetype()
-        self.labelFilesize["text"] = "파일크기:\n"+str(self.filesize)+" 바이트"
+        self.labelFilesize["text"] = "파일크기:\n"+str(self.filesize)+" 바이트\n"
 
         self.labelFilename.pack(fill=X)
         self.labelFiletype.pack(fill=X)
         self.labelFilesize.pack(fill=X)
+        self.buttonFindFlag.pack(fill=X)
         self.frameInfo.pack(side=LEFT, fill=BOTH)
 
         self.isOpened = True
@@ -125,6 +129,7 @@ class HexViewer:
     def find_flag(self):
         keyword = self.get_setting("flagFormat").split("*", 1)[0]
         if self.isOpened:
+            isFound = False
             for i in range(0, len(self.filedata)):
                 is_flagfound = False
                 weight = 0
@@ -146,6 +151,9 @@ class HexViewer:
                         else:
                             break
                     showinfo("플래그 발견!", flaglike)
+                    isFound = True
+            if not isFound:
+                showerror("Hex Viewer - 알랴죠", "플래그가 발견되지 않았습니다!")
 
     def get_filetype(self):
         if self.is_hexheader("89 50 4E 47 0D 0A 1A 0A"):
