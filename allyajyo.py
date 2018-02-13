@@ -27,6 +27,10 @@ buttonHexViewer = Button(root, text="웹 크롤러", command=lambda: WebCrawler(
 buttonHexViewer.config(font=["나눔고딕", 15])
 buttonHexViewer.pack(fill=X)
 
+buttonHexViewer = Button(root, text="Cryptography", command=lambda: WebCrawler().show())
+buttonHexViewer.config(font=["나눔고딕", 15])
+buttonHexViewer.pack(fill=X)
+
 buttonSetting = Button(root, text="설정", command=lambda: Setting().show())
 buttonSetting.config(font=["나눔고딕", 15])
 buttonSetting.pack(fill=X)
